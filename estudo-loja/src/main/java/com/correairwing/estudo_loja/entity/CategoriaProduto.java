@@ -16,7 +16,7 @@ public class CategoriaProduto {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "marca_produto_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categoria_produto_seq")
     private Long id;
 
     private String nomeDesc;
