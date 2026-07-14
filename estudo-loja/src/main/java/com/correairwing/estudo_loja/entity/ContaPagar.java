@@ -19,23 +19,27 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.correairwing.estudo_loja.enums.StatusContaReceber;
+import com.correairwing.estudo_loja.enums.StatusContaPagar;
 
 @Entity
-@Table(name = "conta_receber")
-@SequenceGenerator(name = "conta_receber_seq", sequenceName = "conta_receber_seq", allocationSize = 1, initialValue = 1)
-public class ContaReceber implements Serializable{
+@Table(name = "conta_pagar")
+@SequenceGenerator(name = "conta_pagar_seq", sequenceName = "conta_pagar_seq", allocationSize = 1, initialValue = 1)
+public class ContaPagar implements Serializable {
 
      private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "conta_receber_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "conta_pagar_seq")
     private Long id;
 
     private String descricao;
 
+    private BigDecimal valorTotal;
+
+    private BigDecimal valorDesconto;
+
     @Enumerated(EnumType.STRING)
-    private StatusContaReceber status;
+    private StatusContaPagar status;
 
     @Temporal(TemporalType.DATE)
     private Date dtVencimento;
@@ -43,13 +47,13 @@ public class ContaReceber implements Serializable{
     @Temporal(TemporalType.DATE)
     private Date dtPagamento;
 
-    private BigDecimal valorTotal;
-
-    private BigDecimal valorDesconto;
-
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "fk_pessoa"), referencedColumnName = "id")
     private Pessoa pessoa;
+
+    @ManyToOne(targetEntity = Pessoa.class)
+    @JoinColumn(name = "pessoa_fornecedor_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "fk_pessoa_fornecedor"), referencedColumnName = "id")
+    private Pessoa pessoa_fornecedor;
 
     public Long getId() {
         return id;
@@ -67,11 +71,27 @@ public class ContaReceber implements Serializable{
         this.descricao = descricao;
     }
 
-    public StatusContaReceber getStatus() {
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public BigDecimal getValorDesconto() {
+        return valorDesconto;
+    }
+
+    public void setValorDesconto(BigDecimal valorDesconto) {
+        this.valorDesconto = valorDesconto;
+    }
+
+    public StatusContaPagar getStatus() {
         return status;
     }
 
-    public void setStatus(StatusContaReceber status) {
+    public void setStatus(StatusContaPagar status) {
         this.status = status;
     }
 
@@ -91,6 +111,22 @@ public class ContaReceber implements Serializable{
         this.dtPagamento = dtPagamento;
     }
 
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public Pessoa getPessoa_fornecedor() {
+        return pessoa_fornecedor;
+    }
+
+    public void setPessoa_fornecedor(Pessoa pessoa_fornecedor) {
+        this.pessoa_fornecedor = pessoa_fornecedor;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -107,7 +143,7 @@ public class ContaReceber implements Serializable{
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ContaReceber other = (ContaReceber) obj;
+        ContaPagar other = (ContaPagar) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -115,30 +151,7 @@ public class ContaReceber implements Serializable{
             return false;
         return true;
     }
-
-    public BigDecimal getValorTotal() {
-        return valorTotal;
-    }
-
-    public void setValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
-    }
-
-    public BigDecimal getValorDesconto() {
-        return valorDesconto;
-    }
-
-    public void setValorDesconto(BigDecimal valorDesconto) {
-        this.valorDesconto = valorDesconto;
-    }
-
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
-
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
-    }
-
+    
+    
     
 }
